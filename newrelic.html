@@ -1,0 +1,31 @@
+<?!= include('Stylesheet'); ?>
+
+<div id="action-container">
+  <div id="banner">
+    <?= data.header ?>
+  </div>
+  <div id="descriptor">
+    <?= data.desc ?>
+  </div>
+
+  <form id="myForm">
+    <input id="firstName" type="text" placeholder="First name"/>
+    <input id="lastName" type="text" placeholder="Last name"/>
+    <input id="birthday" type="date" />
+    <input id="birthdayPresent" type="text" placeholder="Desired present"/>
+    <div id="submit-wrapper">
+      <input id="submit-button" type="button" value="Submit"
+          onclick="addValues()" />
+    </div>
+  </form>
+
+  <div id="footer">
+    Output goes to: 
+    <a href="https://docs.google.com/spreadsheets/d/1sgfS2VM-0N1stetAda2Rf459SL6dxu7xo4ztSBmdiwo/">
+      https://docs.google.com/spreadsheets/d/1sgfS2VM-0N1stetAda2Rf459SL6dxu7xo4ztSBmdiwo/
+    </a>
+  </div>
+</div>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<?!= include('JavaScript'); ?>
