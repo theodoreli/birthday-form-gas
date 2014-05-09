@@ -5,7 +5,7 @@ window.inputId = ["firstName", "lastName", "birthday", "birthdayPresent"];
 window.addValues = function(e) {
   var arrayValues = [];
   
-  $(this).attr("disabled", true); // cant use CSS selectors for [disabled] due to Caja? need alt way to show it is disabled.
+  $(this).attr("disabled", true);
   $("#submit-wrapper").append('<div id="submit-button-overlay"></div>');
   console.log("Submit button clicked");
   
@@ -47,7 +47,7 @@ window.onSuccessSubmit = function() {
 window.fadeRemoveCb = function($removee, callback) {
   $removee.fadeOut(1000, function() {
     $removee.remove();
-    if (callback) { callback() };
+    if (callback) { callback(); }
   });
 };
 </script>
