@@ -2,8 +2,11 @@
 // need to use window object as per Google documentation to prevent recompilation.
 window.inputId = ["firstName", "lastName", "birthday", "birthdayPresent"];
 
-window.addValues = function(e) {
+// capture all form values. If at least one field is empty, prompt user. Else, submit values to spreadsheet.
+window.submitHandler = function(e) {
   var arrayValues = [];
+  var hasEmptyInput = false;
+  var $el;
   
   $(this).attr("disabled", true);
   $("#submit-wrapper").append('<div id="submit-button-overlay"></div>');
@@ -11,8 +14,21 @@ window.addValues = function(e) {
   
   // get value of each form input element
   inputId.forEach(function(el) {
-    arrayValues.push($("#"+el).val());
+    $el = $("#"+el).val();
+    console.log($el);
+    if ($el === "") {
+      console.log("Have an empty input on: "+el);
+      hasEmptyInput = true;
+    }
+    arrayValues.push($el);
   });
+  
+  if (hasEmptyInput) {
+    // show dialog that tells user to fill remaining inputs
+    $("form").append('<div class="status" id="status-warning">Need a value for all inputs</div>');
+    status("status-warning");
+    return;
+  }
   
   console.log(arrayValues);
   
@@ -22,8 +38,6 @@ window.addValues = function(e) {
 
 // clear input fields, append status message, then upon timeout: fade & remove submit button overlay and also the status message.
 window.onSuccessSubmit = function() {
-  var timeout;
-  
   console.log("Values submitted succesfully");
   
   // clear the input
@@ -32,17 +46,23 @@ window.onSuccessSubmit = function() {
   });
   
   // apply our overlay on the submit button (can't use CSS [disabled] attribute due to Google host)
-  $("form").append('<div id="status-success">Data submitted to form succesfully</div>');
-  
-  // fade out the submit button overlay and status message together
-  timeout = window.setTimeout(function() {
-    fadeRemoveCb($("#status-success"));
+  $("form").append('<div class="status" id="status-success">Data submitted to form succesfully</div>');
+ 
+  status("status-success");
+};
+
+// ----- Status message helpers
+
+//fadeout the submit button overlay and status message both gradually after a timeout
+window.status = function(id) {
+  window.setTimeout(function() {
+    fadeRemoveCb($("#" +id));
     fadeRemoveCb($("#submit-button-overlay"), function() {
       //renable the submit button
       $("#submit-button").attr("disabled", false);
     });
   }, 2000);
-};
+}
 
 window.fadeRemoveCb = function($removee, callback) {
   $removee.fadeOut(1000, function() {
@@ -50,4 +70,6 @@ window.fadeRemoveCb = function($removee, callback) {
     if (callback) { callback(); }
   });
 };
+
+$("#submit-button").click(window.submitHandler); // needs to be down here
 </script>
